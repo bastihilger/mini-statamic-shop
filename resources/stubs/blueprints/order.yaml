@@ -21,7 +21,7 @@ tabs:
                 visibility: read_only
                 listable: true
             -
-              handle: created_at
+              handle: ordered_at
               field:
                 type: text
                 display: 'Bestellt am'

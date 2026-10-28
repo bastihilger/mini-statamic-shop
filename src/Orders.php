@@ -35,6 +35,14 @@ class Orders
     /**
      * Checks all recent unpaid orders against Stripe.
      */
+    /**
+     * Orders written by the original KraenkShop keep their date in "created_at".
+     */
+    public static function orderedAt($order): ?string
+    {
+        return $order->get('ordered_at') ?? $order->get('created_at');
+    }
+
     public function checkOpen(): int
     {
         $since = now()->subDays(self::CHECK_DAYS)->format('Y-m-d H:i:s');
@@ -42,7 +50,7 @@ class Orders
         return $this->query()
             ->whereStatus('draft')
             ->get()
-            ->filter(fn ($order) => $order->get('stripe_session_id') && $order->get('stripe_session_status') !== 'expired' && $order->get('created_at') >= $since)
+            ->filter(fn ($order) => $order->get('stripe_session_id') && $order->get('stripe_session_status') !== 'expired' && static::orderedAt($order) >= $since)
             ->filter(fn ($order) => $this->check($order))
             ->count();
     }

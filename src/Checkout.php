@@ -144,7 +144,8 @@ class Checkout
                         'quantity' => $item['quantity'],
                         'price' => Money::toFloat($item['article']['price']),
                     ])->all(),
-                    'created_at' => now()->format('Y-m-d H:i:s'),
+                    // not created_at: the Eloquent driver uses that name for its own timestamp column
+                    'ordered_at' => now()->format('Y-m-d H:i:s'),
                 ] + $this->customerData($address));
 
             $order->save();

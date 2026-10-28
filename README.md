@@ -46,7 +46,7 @@ Create four collections (the handles are configurable in `config/mini-shop.php`)
 | `collections.shipping_rates` | `shipping_rates` | Shipping rates with a `steps` grid (`max_items`, `cost`) |
 | `collections.deposits` | `deposits` | Deposits with a `cost` field in cents per item |
 
-Products link to a shipping rate and a deposit through entries fields (see `fields` in the config). A read-only order blueprint is in `resources/stubs/blueprints/order.yaml`.
+Products link to a shipping rate and a deposit through entries fields (see `fields` in the config). A read-only order blueprint is in `resources/stubs/blueprints/order.yaml`. The order date is stored in `ordered_at`, not `created_at`, which the Eloquent driver reserves for its own timestamp column.
 
 ### Front end
 
