@@ -68,7 +68,13 @@ class Checkout
             $params['customer_email'] = $address['email'];
         }
 
-        $session = static::stripe()->checkout->sessions->create($params);
+        try {
+            $session = static::stripe()->checkout->sessions->create($params);
+        } catch (\Throwable $e) {
+            $order->delete();
+
+            throw $e;
+        }
 
         $order->set('stripe_session_id', $session->id)->save();
 

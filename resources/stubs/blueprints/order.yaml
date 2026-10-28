@@ -1,0 +1,260 @@
+title: Bestellung
+tabs:
+    main:
+      display: Bestellung
+      sections:
+        -
+          fields:
+            -
+              handle: title
+              field:
+                type: text
+                display: Titel
+                visibility: read_only
+                listable: true
+            -
+              handle: order_number
+              field:
+                type: integer
+                display: 'Bestellnummer'
+                width: 25
+                visibility: read_only
+                listable: true
+            -
+              handle: created_at
+              field:
+                type: text
+                display: 'Bestellt am'
+                width: 25
+                visibility: read_only
+                listable: true
+            -
+              handle: paid_at
+              field:
+                type: text
+                display: 'Bezahlt am'
+                width: 25
+                visibility: read_only
+                listable: true
+            -
+              handle: invoice_email
+              field:
+                type: text
+                display: 'E-Mail'
+                width: 25
+                visibility: read_only
+                listable: true
+            -
+              handle: total
+              field:
+                type: float
+                display: 'Gesamt (EUR)'
+                width: 33
+                visibility: read_only
+                listable: true
+            -
+              handle: shipcost
+              field:
+                type: float
+                display: 'Versandkosten (EUR)'
+                width: 33
+                visibility: read_only
+                listable: hidden
+            -
+              handle: deposit
+              field:
+                type: float
+                display: 'Pfand (EUR)'
+                width: 33
+                visibility: read_only
+                listable: hidden
+            -
+              handle: articles
+              field:
+                type: grid
+                display: Artikel
+                visibility: read_only
+                listable: hidden
+                mode: table
+                fields:
+                  -
+                    handle: product_title
+                    field: { type: text, display: Produkt }
+                  -
+                    handle: attributes
+                    field: { type: text, display: Merkmale }
+                  -
+                    handle: article_number
+                    field: { type: text, display: Artikelnr. }
+                  -
+                    handle: quantity
+                    field: { type: integer, display: Anzahl }
+                  -
+                    handle: price
+                    field: { type: float, display: Einzelpreis }
+        -
+          display: Rechnungsadresse
+          fields:
+            -
+              handle: invoice_name
+              field:
+                type: text
+                display: 'Name'
+                width: 50
+                visibility: read_only
+                listable: true
+            -
+              handle: invoice_phone
+              field:
+                type: text
+                display: 'Telefon'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: invoice_street
+              field:
+                type: text
+                display: 'Straße'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: invoice_street2
+              field:
+                type: text
+                display: 'Adresszusatz'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: invoice_postal_code
+              field:
+                type: text
+                display: 'PLZ'
+                width: 25
+                visibility: read_only
+                listable: hidden
+            -
+              handle: invoice_city
+              field:
+                type: text
+                display: 'Ort'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: invoice_country
+              field:
+                type: text
+                display: 'Land'
+                width: 25
+                visibility: read_only
+                listable: hidden
+        -
+          display: Lieferadresse
+          fields:
+            -
+              handle: shipping_name
+              field:
+                type: text
+                display: 'Name'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_phone
+              field:
+                type: text
+                display: 'Telefon'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_street
+              field:
+                type: text
+                display: 'Straße'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_street2
+              field:
+                type: text
+                display: 'Adresszusatz'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_postal_code
+              field:
+                type: text
+                display: 'PLZ'
+                width: 25
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_city
+              field:
+                type: text
+                display: 'Ort'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: shipping_country
+              field:
+                type: text
+                display: 'Land'
+                width: 25
+                visibility: read_only
+                listable: hidden
+    stripe:
+      display: Stripe & Mails
+      sections:
+        -
+          fields:
+            -
+              handle: stripe_session_id
+              field:
+                type: text
+                display: 'Checkout Session'
+                width: 100
+                visibility: read_only
+                listable: hidden
+            -
+              handle: stripe_payment_intent
+              field:
+                type: text
+                display: 'Payment Intent'
+                width: 100
+                visibility: read_only
+                listable: true
+            -
+              handle: shop_mail_sent_at
+              field:
+                type: text
+                display: 'Mail an Shop gesendet'
+                width: 50
+                visibility: read_only
+                listable: hidden
+            -
+              handle: customer_mail_sent_at
+              field:
+                type: text
+                display: 'Mail an Kunden gesendet'
+                width: 50
+                visibility: read_only
+                listable: hidden
+    sidebar:
+      display: Sidebar
+      sections:
+        -
+          fields:
+            -
+              handle: slug
+              field:
+                type: slug
+                display: Slug
+                visibility: read_only
