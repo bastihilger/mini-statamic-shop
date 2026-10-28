@@ -31,7 +31,9 @@ STRIPE_WEBHOOK_SECRET=whsec_...   # optional
 MINI_SHOP_ORDER_RECIPIENTS=shop@example.com
 ```
 
-Laravel's scheduler must run (`php artisan schedule:run` every minute) so open orders are checked against Stripe.
+Laravel's scheduler must run (`php artisan schedule:run` every minute) so open orders are checked against Stripe. Orders are checked for 21 days, long enough for delayed payment methods such as SEPA direct debit.
+
+The payment methods offered on Stripe Checkout are the ones enabled in the Stripe Dashboard (Settings → Payment methods).
 
 ### Collections
 

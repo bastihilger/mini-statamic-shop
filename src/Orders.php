@@ -11,9 +11,11 @@ use Statamic\Facades\Entry;
 class Orders
 {
     /**
-     * Open orders older than this are no longer checked (Checkout Sessions expire after 24 hours).
+     * Open orders older than this are no longer checked. Abandoned Checkout
+     * Sessions expire after 24 hours, but delayed payment methods such as SEPA
+     * direct debit can take up to 14 business days to succeed.
      */
-    public const CHECK_HOURS = 48;
+    public const CHECK_DAYS = 21;
 
     public function query()
     {
@@ -35,12 +37,12 @@ class Orders
      */
     public function checkOpen(): int
     {
-        $since = now()->subHours(self::CHECK_HOURS)->format('Y-m-d H:i:s');
+        $since = now()->subDays(self::CHECK_DAYS)->format('Y-m-d H:i:s');
 
         return $this->query()
             ->whereStatus('draft')
             ->get()
-            ->filter(fn ($order) => $order->get('stripe_session_id') && $order->get('created_at') >= $since)
+            ->filter(fn ($order) => $order->get('stripe_session_id') && $order->get('stripe_session_status') !== 'expired' && $order->get('created_at') >= $since)
             ->filter(fn ($order) => $this->check($order))
             ->count();
     }
@@ -58,6 +60,13 @@ class Orders
             $session = Checkout::stripe()->checkout->sessions->retrieve($order->get('stripe_session_id'));
         } catch (\Throwable $e) {
             Log::warning('mini-shop: could not retrieve checkout session', ['order' => $order->id(), 'error' => $e->getMessage()]);
+
+            return false;
+        }
+
+        if ($session->status === 'expired') {
+            // abandoned checkout, no need to ask Stripe again
+            $order->set('stripe_session_status', 'expired')->save();
 
             return false;
         }
@@ -89,6 +98,12 @@ class Orders
         }
 
         $recipients = collect(explode(',', (string) config('mini-shop.order_recipients')))->map(fn ($r) => trim($r))->filter();
+
+        if ($recipients->isEmpty()) {
+            Log::warning('mini-shop: no order_recipients configured, shop mail for order '.$order->get('order_number').' not sent.');
+
+            return;
+        }
 
         foreach ($recipients as $recipient) {
             Mail::to($recipient)->send(new ShopOrder($order));

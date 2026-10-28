@@ -24,15 +24,14 @@ return [
     | Stripe
     |--------------------------------------------------------------------------
     |
-    | Leave "payment_method_types" empty to use the payment methods enabled
-    | in the Stripe Dashboard, or restrict them, e.g. ['card'].
+    | The payment methods offered on Stripe Checkout are the ones enabled in
+    | the Stripe Dashboard (Settings → Payment methods).
     |
     */
 
     'stripe' => [
         'secret' => env('STRIPE_SECRET'),
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
-        'payment_method_types' => [],
     ],
 
     'currency' => 'eur',

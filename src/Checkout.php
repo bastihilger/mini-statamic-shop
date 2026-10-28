@@ -60,10 +60,6 @@ class Checkout
             'locale' => 'auto',
         ];
 
-        if ($types = config('mini-shop.stripe.payment_method_types')) {
-            $params['payment_method_types'] = $types;
-        }
-
         if (filter_var($address['email'] ?? null, FILTER_VALIDATE_EMAIL)) {
             $params['customer_email'] = $address['email'];
         }

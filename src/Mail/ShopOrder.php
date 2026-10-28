@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Envelope;
 
 class ShopOrder extends Mailable
 {
-    public function __construct(public $order)
+    public function __construct(protected $order)
     {
     }
 
