@@ -56,7 +56,7 @@ class ServiceProvider extends AddonServiceProvider
                 $collections = config('mini-shop.collections');
                 $section = __('mini-shop::shop.cp.section');
 
-                foreach (['products' => 'shopping-cart', 'orders' => 'receipt', 'shipping_rates' => 'delivery-truck', 'deposits' => 'recycle'] as $key => $icon) {
+                foreach (['products' => 'shopping-store', 'orders' => 'shopping-cart', 'shipping_rates' => 'package-box-crate', 'deposits' => 'money-cash-bill'] as $key => $icon) {
                     if ($collection = Collection::findByHandle($collections[$key] ?? '')) {
                         $nav->create(__("mini-shop::shop.cp.{$key}"))
                             ->section($section)
@@ -70,7 +70,7 @@ class ServiceProvider extends AddonServiceProvider
                     $nav->create(__('mini-shop::shop.cp.categories'))
                         ->section($section)
                         ->route('taxonomies.show', $taxonomy)
-                        ->icon('tags');
+                        ->icon('taxonomies');
                 }
             });
         }
